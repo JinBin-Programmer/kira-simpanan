@@ -194,17 +194,17 @@ export default function SavingsCalculator() {
         <div className="card-glass rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
             <tbody className="divide-y divide-white/5">
-              {mode === "future" ? [
-                { label: s.totalContrib,   val: RM(futureResult.totalContributed), cls: "text-white font-bold" },
-                { label: s.totalInterest,  val: RM(futureResult.totalInterest),    cls: "text-emerald-300" },
-                { label: s.futureValue,    val: RM(futureResult.finalAmount),      cls: "text-yellow-300 font-black text-lg" },
+              {(mode === "future" ? [
+                { label: s.totalContrib,   val: RM(futureResult.totalContributed),  cls: "text-white font-bold" },
+                { label: s.totalInterest,  val: RM(futureResult.totalInterest),     cls: "text-emerald-300" },
+                { label: s.futureValue,    val: RM(futureResult.finalAmount),       cls: "text-yellow-300 font-black text-lg" },
                 { label: s.interestPct,    val: `${futureResult.interestPercent}%`, cls: "text-emerald-300" },
               ] : [
                 { label: s.monthlyNeeded,  val: RM(targetResult.monthlyNeeded),    cls: "text-yellow-300 font-black text-lg" },
                 { label: s.totalContrib,   val: RM(targetResult.totalContributed), cls: "text-white font-bold" },
                 { label: lang === "bm" ? "Keuntungan" : "Returns", val: RM(targetResult.totalInterest), cls: "text-emerald-300" },
                 { label: lang === "bm" ? "Sasaran" : "Target",     val: RM(target),                     cls: "text-white" },
-              ].map(row => (
+              ]).map(row => (
                 <tr key={row.label} className="hover:bg-white/5">
                   <td className="px-5 py-3 text-white/60">{row.label}</td>
                   <td className={`px-5 py-3 text-right font-mono font-semibold ${row.cls}`}>{row.val}</td>
