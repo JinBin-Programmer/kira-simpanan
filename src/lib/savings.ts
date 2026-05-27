@@ -11,7 +11,13 @@ export interface TargetResult {
   totalInterest: number;
 }
 
-// How much you'll have after saving monthly for N years
+export interface YearlyPoint {
+  year: number;
+  contributions: number;
+  interest: number;
+  total: number;
+}
+
 export function calculateFutureValue(
   monthlyContribution: number,
   annualRate: number,
@@ -35,7 +41,6 @@ export function calculateFutureValue(
   };
 }
 
-// How much to save monthly to reach a target in N years
 export function calculateMonthlyNeeded(
   targetAmount: number,
   annualRate: number,
@@ -52,4 +57,28 @@ export function calculateMonthlyNeeded(
     totalContributed: Math.round(totalContributed * 100) / 100,
     totalInterest: Math.round((targetAmount - totalContributed) * 100) / 100,
   };
+}
+
+export function getYearlyBreakdown(
+  monthlyContribution: number,
+  annualRate: number,
+  years: number,
+  initialAmount = 0,
+): YearlyPoint[] {
+  const r = annualRate / 100 / 12;
+  return Array.from({ length: years }, (_, i) => {
+    const n = (i + 1) * 12;
+    const fvContrib = r === 0
+      ? monthlyContribution * n
+      : monthlyContribution * (Math.pow(1 + r, n) - 1) / r;
+    const fvInitial = initialAmount * Math.pow(1 + r, n);
+    const total = fvContrib + fvInitial;
+    const contributions = monthlyContribution * n + initialAmount;
+    return {
+      year: i + 1,
+      contributions: Math.round(contributions),
+      interest: Math.round(total - contributions),
+      total: Math.round(total),
+    };
+  });
 }
