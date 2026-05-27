@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
 import Link from "next/link";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://simpanan.themalaysianinfo.online"),
@@ -19,22 +21,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7019273666606982" crossOrigin="anonymous" strategy="afterInteractive" />
       </head>
       <body className="min-h-screen flex flex-col">
-        <nav className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10 shadow-sm">
-          <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-bold text-white text-lg">
-              <span className="text-2xl">💵</span>
-              <div>
-                <div className="leading-none">Kalkulator Simpanan</div>
-                <div className="text-[10px] text-white/40 font-normal leading-none">Malaysia Savings Calculator</div>
-              </div>
-            </Link>
-          </div>
-        </nav>
-        <main className="flex-1">{children}</main>
-        <footer className="border-t border-white/10 bg-black/60 py-6 text-center text-xs text-white/30 space-y-1">
-          <p>Anggaran berdasarkan faedah kompaun · Based on compound interest estimates</p>
-          <p className="mt-2">© {new Date().getFullYear()} Kalkulator Simpanan Malaysia</p>
-        </footer>
+        <LanguageProvider>
+          <nav className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10 shadow-sm">
+            <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+              <Link href="/" className="flex items-center gap-2 font-bold text-white text-lg">
+                <span className="text-2xl">💵</span>
+                <div>
+                  <div className="leading-none">Kalkulator Simpanan</div>
+                  <div className="text-[10px] text-white/40 font-normal leading-none">Malaysia Savings Calculator</div>
+                </div>
+              </Link>
+              <LanguageToggle />
+            </div>
+          </nav>
+          <main className="flex-1">{children}</main>
+          <footer className="border-t border-white/10 bg-black/60 py-6 text-center text-xs text-white/30 space-y-1">
+            <p>Anggaran berdasarkan faedah kompaun · Based on compound interest estimates</p>
+            <p className="mt-2">© {new Date().getFullYear()} Kalkulator Simpanan Malaysia</p>
+          </footer>
+        </LanguageProvider>
       </body>
     </html>
   );

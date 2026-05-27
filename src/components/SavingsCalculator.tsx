@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   Legend, ResponsiveContainer,
@@ -37,7 +38,7 @@ export default function SavingsCalculator() {
   const [rate, setRate] = useState(4.5);
   const [rateInput, setRateInput] = useState("4.5");
   const [years, setYears] = useState(10);
-  const [lang, setLang] = useState<"bm" | "en">("bm");
+  const { lang } = useLanguage();
 
   const futureResult = useMemo(
     () => calculateFutureValue(monthly, rate, years, initial),
@@ -123,16 +124,6 @@ export default function SavingsCalculator() {
           <div className="animate-in text-center space-y-2 pt-4">
             <h1 className="text-3xl font-black text-white drop-shadow-lg">{s.title}</h1>
             <p className="text-white/60 text-sm">{s.subtitle}</p>
-            <div className="flex justify-center mt-3">
-              <div className="flex items-center gap-1 bg-white/10 rounded-lg p-0.5">
-                {(["bm", "en"] as const).map(l => (
-                  <button key={l} onClick={() => setLang(l)}
-                    className={`text-xs px-3 py-1.5 rounded-md font-semibold transition-colors ${lang === l ? "bg-yellow-500 text-black" : "text-white/60 hover:text-white"}`}>
-                    {l === "bm" ? "BM" : "EN"}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Mode tabs */}
